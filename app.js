@@ -126,6 +126,6 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: "Something went wrong" });
 });
 
-app.listen(3010, () => {
+app.listen(3010,'0.0.0.0' ,() => {
   console.log("Server is running...");
 });
