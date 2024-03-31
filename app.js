@@ -9,6 +9,7 @@ const cors = require("cors");
 const sendMail = require("./Mailer");
 dotenv.config({ path: "./.env.local" });
 
+app.use(express.static("./Images"));
 app.use(express.json());
 app.use(cors());
 
@@ -57,7 +58,7 @@ app.post("/news", upload.single("image"), (req, res) => {
     const newsData = {
       title: req.body.title,
       createdBy: req.body.createdBy,
-      image: `${__dirname}/Images/` + req.body.newImgName,
+      image: `http://91.108.113.110:3010/` + req.body.newImgName,
       content: req.body.content,
       shortDescription: req.body.shortDescription,
     };
@@ -126,6 +127,6 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: "Something went wrong" });
 });
 
-app.listen(3010,'0.0.0.0' ,() => {
+app.listen(3010, "0.0.0.0", () => {
   console.log("Server is running...");
 });
