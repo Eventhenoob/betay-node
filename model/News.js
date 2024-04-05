@@ -28,4 +28,4 @@ const newsSchema = new mongoose.Schema({
 });
 
 // Corrected export statement
-module.exports = mongoose.model("News", newsSchema);
+module.exports = mongoose.models.News || mongoose.model("News", newsSchema);

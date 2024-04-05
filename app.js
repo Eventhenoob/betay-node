@@ -1,12 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const News = require("./model/News");
+const Subscriber = require("./model/Subscriber");
 const multer = require("multer");
 const path = require("path");
 const app = express();
 const dotenv = require("dotenv");
 const cors = require("cors");
 const sendMail = require("./Mailer");
+const emailValidator = require('./Validators/emailValidator');
 dotenv.config({ path: "./.env.local" });
 
 app.use(express.static("./Images"));
@@ -121,6 +123,23 @@ app.post("/mail", async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 });
+
+app.post("/newsLetter", async (req, res) => {
+  try {
+    const  {email} = req.body;
+    const validation = emailValidator.safeParse(email);
+    if(!validation.success) return res.status(400).json({ message: "Invalid Email Provided" });
+    const foundEmail = await Subscriber.findOne({email});
+    if(foundEmail) return res.status(400).json({ message: "Provided Email Already Exists." });
+    const newEmail = {email}
+    const newSubscriber = new Subscriber(newEmail);
+    newSubscriber.save();
+    return res.status(201).json({ message: "Email sent successfully" });
+  }
+  catch(e) {
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+})
 
 app.use((err, _req, res, _next) => {
   console.log(err);
