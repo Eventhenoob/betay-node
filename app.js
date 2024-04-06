@@ -1,4 +1,6 @@
 const express = require("express");
+const https = require("https");
+const fs = require("fs");
 const mongoose = require("mongoose");
 const News = require("./model/News");
 const Subscriber = require("./model/Subscriber");
@@ -146,6 +148,17 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: "Something went wrong" });
 });
 
-app.listen(3010, "0.0.0.0", () => {
-  console.log("Server is running...");
+const sslPath = `/etc/letsencrypt/live/www.agencedarwin.fr`; 
+
+
+const options = {
+  key: fs.readFileSync(`${sslPath}/privkey.pem`),
+  cert: fs.readFileSync(`${sslPath}/cert.pem`),
+  ca: fs.readFileSync(`${sslPath}/chain.pem`),
+};
+
+const httpsServer = https.createServer(options, app);
+
+httpsServer.listen(3010, () => {
+  console.log("Server is running on port 3010...");
 });
