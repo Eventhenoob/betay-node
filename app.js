@@ -69,7 +69,7 @@ app.post("/news", upload.single("image"), (req, res) => {
     const newsData = {
       title: req.body.title,
       createdBy: req.body.createdBy,
-      image: `http://91.108.113.110:3010/` + req.body.newImgName,
+      image: `https://91.108.113.110:3010/` + req.body.newImgName,
       content: req.body.content,
       shortDescription: req.body.shortDescription,
     };
@@ -157,8 +157,11 @@ app.use((err, _req, res, _next) => {
 
  
 
+const options = {
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+};
 
-const options = {};
 const httpsServer = https.createServer(options, app);
 
 httpsServer.listen(3010, () => {
