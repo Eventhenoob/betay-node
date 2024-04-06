@@ -69,7 +69,7 @@ app.post("/news", upload.single("image"), (req, res) => {
     const newsData = {
       title: req.body.title,
       createdBy: req.body.createdBy,
-      image: `https://91.108.113.110:3010/` + req.body.newImgName,
+      image: `http://91.108.113.110:3010/` + req.body.newImgName,
       content: req.body.content,
       shortDescription: req.body.shortDescription,
     };
@@ -155,15 +155,10 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: "Something went wrong" });
 });
 
-const sslPath = `./certi`; 
+ 
 
 
-const options = {
-  key: fs.readFileSync(`${sslPath}/privkey.pem`),
-  cert: fs.readFileSync(`${sslPath}/cert.pem`),
-  ca: fs.readFileSync(`${sslPath}/chain.pem`),
-};
-
+const options = {};
 const httpsServer = https.createServer(options, app);
 
 httpsServer.listen(3010, () => {
