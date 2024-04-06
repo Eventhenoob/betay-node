@@ -15,7 +15,14 @@ dotenv.config({ path: "./.env.local" });
 
 app.use(express.static("./Images"));
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
