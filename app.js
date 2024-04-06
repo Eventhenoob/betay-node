@@ -69,7 +69,7 @@ app.post("/news", upload.single("image"), (req, res) => {
     const newsData = {
       title: req.body.title,
       createdBy: req.body.createdBy,
-      image: `http://91.108.113.110:3010/` + req.body.newImgName,
+      image: `https://91.108.113.110:3010/` + req.body.newImgName,
       content: req.body.content,
       shortDescription: req.body.shortDescription,
     };
@@ -155,7 +155,7 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: "Something went wrong" });
 });
 
-const sslPath = `/etc/letsencrypt/live/www.agencedarwin.fr`; 
+const sslPath = `./certi`; 
 
 
 const options = {
